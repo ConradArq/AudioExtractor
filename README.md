@@ -1,0 +1,3 @@
+## Extract audio from video based script file
+
+This app allows you to extract the dialog from any number of video files using their corresponding .srt script files. You can also use pbf files to select only specific lines from the .srt files to be extracted out of the video files and discard the rest. A single .mp3 file is generated per any given directory containing all video, .srt and .pbf files.

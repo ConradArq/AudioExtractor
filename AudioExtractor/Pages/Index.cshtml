@@ -1,0 +1,89 @@
+﻿
+@page
+@model IndexModel
+
+@{
+    ViewData["Title"] = "Audio Extractor";
+}
+
+<h1>Audio Extractor</h1>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AudioExtractor.SourceDirectory" class="control-label"></label>
+                <input asp-for="AudioExtractor.SourceDirectory" class="form-control" />
+                <span asp-validation-for="AudioExtractor.SourceDirectory" class="text-danger"></span>
+
+                <br/>
+
+                <div class="form-check form-switch" style="margin-top:15px;">
+                    <label asp-for="AudioExtractor.UseBookmarks" class="control-label"></label>
+                    <input asp-for="AudioExtractor.UseBookmarks" class="form-check-input">
+                    <span asp-validation-for="AudioExtractor.UseBookmarks" class="text-danger"></span>
+                </div>
+
+                <br />
+
+                <label asp-for="AudioExtractor.OutputCompositionCode" class="control-label"></label>
+                <select asp-for="AudioExtractor.OutputCompositionCode" class="form-control col-md-4" style="width:fit-content" asp-items="Html.GetEnumSelectList<OutputComposition>()" >
+                    <option>Select type ...</option>
+                    </select>
+                <span asp-validation-for="AudioExtractor.OutputCompositionCode" class="text-danger"></span>
+
+                <br />
+                
+                @if (Model.AudioExtractor!=null && (int)Model.AudioExtractor.OutputCompositionCode == 5)
+                {
+                    <div id="BulkMaxLinesDiv">
+                        <label asp-for="AudioExtractor.BulkMaxLines" class="control-label"></label>
+                        <input asp-for="AudioExtractor.BulkMaxLines" class="form-control" value="1" style="width:60px" />
+                        <span asp-validation-for="AudioExtractor.BulkMaxLines" class="text-danger"></span>
+                    </div>
+                }
+                else
+                {
+                    <div id="BulkMaxLinesDiv" style="display:none">
+                        <label asp-for="AudioExtractor.BulkMaxLines" class="control-label"></label>
+                        <input asp-for="AudioExtractor.BulkMaxLines" class="form-control" value="1" style="width:60px" />
+                        <span asp-validation-for="AudioExtractor.BulkMaxLines" class="text-danger"></span>
+                    </div>
+                }
+
+                <br />
+
+            </div>            
+            <div class="form-group">
+                <input type="submit" value="Extract" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $("Select[name='AudioExtractor.OutputCompositionCode']").change(function () {
+
+            if ($(this).val() == "5") {
+                $("#BulkMaxLinesDiv").slideDown();
+            }
+            else {
+                $("#BulkMaxLinesDiv").slideUp();
+            }
+        });
+    </script>
+}
+
+@section Styles{
+
+    <style>
+        .control-label{
+            font-weight:600;
+            margin-bottom:5px;
+        }
+    </style>
+}
